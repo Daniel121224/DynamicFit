@@ -1,11 +1,14 @@
 package com.software.Dynamicfit.controller;
 
+import com.software.Dynamicfit.dto.LoginDTO;
+
 //La capa que maneja las solicitudes HTTP (GET, POST, DELETE...).
 
 import com.software.Dynamicfit.dto.UsuarioDTO;
 import com.software.Dynamicfit.model.Usuario;
 import com.software.Dynamicfit.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,4 +39,17 @@ public class UsuarioController {
     public void eliminarUsuario(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
     }
+
+
+
+    @PostMapping("/loginclient")
+    public int login(@RequestBody LoginDTO usuario){
+        return usuarioService.login(usuario);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginCliente(@RequestBody LoginDTO usuario){
+        return usuarioService.ingresar(usuario);
+    }
+
 }

@@ -48,8 +48,8 @@ public class Usuario {
         this.rol = rol;
     }
 
-    // BORRAR
-    //getters y setters
+    //getters y setters si no se usa lombok
+    /* 
     public Long getId() {
         return id;
     }
@@ -113,7 +113,7 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
+    */
 
 }
 

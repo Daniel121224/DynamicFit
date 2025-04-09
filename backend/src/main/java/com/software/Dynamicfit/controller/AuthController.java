@@ -14,6 +14,23 @@ Este controlador recibe las solicitudes de inicio de sesión con el LoginDto
 y llama al AuthService para validar las credenciales del usuario.
 */
 
+/**
+ * Clase AuthController (NO UTILIZADA ACTUALMENTE)
+ *
+ * Esta clase fue creada inicialmente para manejar la lógica de autenticación (login) de usuarios.
+ * Sin embargo, actualmente no está en uso, ya que la funcionalidad de inicio de sesión se implementó
+ * directamente en la clase UsuarioController, en el endpoint '/api/usuarios/login'.
+ *
+ * El AuthController puede eliminarse si no se planea ampliar la autenticación del sistema.
+ * No obstante, se recomienda conservarlo si en el futuro se desea:
+ *   - Separar responsabilidades y mantener una arquitectura más limpia (login y registro por separado).
+ *   - Implementar autenticación mediante JWT (JSON Web Tokens).
+ *   - Utilizar Spring Security u otros mecanismos más avanzados de seguridad.
+ *
+ * Por ahora, toda la lógica de login está centralizada en UsuarioController.
+ */
+
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

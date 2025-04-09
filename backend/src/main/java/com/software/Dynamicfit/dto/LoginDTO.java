@@ -6,10 +6,10 @@ y sus respectivas contraeñas
 */
 
 public class LoginDTO {
-
     private String username;
-
     private String contrasena;
+
+    public LoginDTO() {}
 
     public String getUsername() {
         return username;
@@ -26,5 +26,4 @@ public class LoginDTO {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-    
 }

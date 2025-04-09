@@ -55,8 +55,8 @@ public class UsuarioService {
 
 
     public int login(LoginDTO usuarioDto) {
-    return usuarioRepository.findByUsernameAndPassword(usuarioDto.getUsername(), usuarioDto.getContrasena());
-}
+        return usuarioRepository.findByUsernameAndPassword(usuarioDto.getUsername(), usuarioDto.getContrasena());
+    }
 
     public ResponseEntity<?> ingresar(LoginDTO usuarioDto) {
         Map<String, Object> response = new HashMap<>();

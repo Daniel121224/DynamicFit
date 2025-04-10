@@ -15,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@CrossOrigin(origins = "*") // Permitir solicitudes de cualquier origen
+// Esta anotación permite que el controlador acepte solicitudes de diferentes dominios, útil para aplicaciones frontend y backend separados.
 public class UsuarioController {
 
     @Autowired

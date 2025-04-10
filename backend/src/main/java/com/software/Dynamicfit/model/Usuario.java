@@ -3,19 +3,18 @@ package com.software.Dynamicfit.model;
 //import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
 
 @Entity //le dice a Spring que esta clase es una entidad de base de datos.
 @Data //con lombok genera getters, setters, constructores, etc
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor // Constructor sin argumentos
+@AllArgsConstructor // Constructor con todos los argumentos
 @Builder
 @Table(name = "usuario") //nombre de la tabla en la base de datos.
 public class Usuario {

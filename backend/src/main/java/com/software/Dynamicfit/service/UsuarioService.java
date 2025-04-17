@@ -24,6 +24,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private CarritoService carritoService; // Inyección de CarritoService
+
     public List<UsuarioDTO> obtenerTodos() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         return usuarios.stream().map(this::convertirADTO).collect(Collectors.toList());
@@ -35,7 +38,17 @@ public class UsuarioService {
     }
 
     public UsuarioDTO crearUsuario(Usuario usuario) {
+        //Usuario guardado = usuarioRepository.save(usuario);
+        //return convertirADTO(guardado);
+
+        // Guardamos el usuario
         Usuario guardado = usuarioRepository.save(usuario);
+
+        // Creamos el carrito automáticamente
+        CarritoDTO carritoDTO = new CarritoDTO();
+        carritoDTO.setUsuario_id(guardado.getId_usuario());
+        carritoService.crearCarrito(carritoDTO);
+
         return convertirADTO(guardado);
     }
 

@@ -2,12 +2,12 @@ package com.software.Dynamicfit.controller;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
 import com.software.Dynamicfit.model.Carrito;
-import com.software.Dynamicfit.model.Producto;
+//import com.software.Dynamicfit.model.Producto;
 import com.software.Dynamicfit.service.CarritoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+//import java.util.List;
 
 @RestController
 @RequestMapping("/api/carritos")
@@ -24,6 +24,14 @@ public class CarritoController {
     public ResponseEntity<Carrito> crearCarrito(@RequestBody CarritoDTO carritoDTO) {
         Carrito nuevoCarrito = carritoService.crearCarrito(carritoDTO);
         return ResponseEntity.ok(nuevoCarrito);
+    }
+
+    /*
+
+    @DeleteMapping("/{idCarrito}")
+    public ResponseEntity<?> eliminarCarrito(@PathVariable Long idCarrito) {
+        carritoService.eliminarCarrito(idCarrito);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{idUsuario}")
@@ -53,12 +61,6 @@ public class CarritoController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{idCarrito}")
-    public ResponseEntity<?> eliminarCarrito(@PathVariable Long idCarrito) {
-        carritoService.eliminarCarrito(idCarrito);
-        return ResponseEntity.ok().build();
-    }
-
     @PutMapping("/{idCarrito}/actualizar")
     public ResponseEntity<Carrito> actualizarCantidadProducto(
             @PathVariable Long idCarrito,
@@ -71,4 +73,7 @@ public class CarritoController {
     public ResponseEntity<List<Producto>> obtenerProductosDelCarrito(@PathVariable Long idCarrito) {
         return ResponseEntity.ok(carritoService.obtenerProductos(idCarrito));
     }
+
+    */
+
 }

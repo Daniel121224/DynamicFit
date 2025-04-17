@@ -1,26 +1,31 @@
 package com.software.Dynamicfit.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "carrito")
+@Table(name = "carritos")
 public class Carrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_carrito;
 
-    private Long id_usuario;
-
+    @Column(name = "total_carrito", nullable = false)
     private Integer total_carrito;
 
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CarritoProducto> productos;
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
+    @JsonBackReference
+    private Usuario usuario;
+
+
+    //@OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<CarritoProducto> productos;
 }

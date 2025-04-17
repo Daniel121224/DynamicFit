@@ -1,8 +1,13 @@
 package com.software.Dynamicfit.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 //import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -16,26 +21,39 @@ import lombok.Builder;
 @NoArgsConstructor // Constructor sin argumentos
 @AllArgsConstructor // Constructor con todos los argumentos
 @Builder
-@Table(name = "usuario") //nombre de la tabla en la base de datos.
+@Table(name = "usuarios") //nombre de la tabla en la base de datos.
 public class Usuario {
 
     @Id //indica que el campo id es la clave primaria.
     @GeneratedValue(strategy = GenerationType.IDENTITY) //para generar un valor unico como id
-    private Long id;
+    private Long id_usuario;
 
+    @Column(name = "username", nullable = false, length = 70)
     private String username;
 
+    @Column(name = "nombre", nullable = false, length = 70)
     private String nombre;
 
+    @Column(name = "email", nullable = false, length = 70)
     private String email;
 
+    @Column(name = "contrasena", nullable = false, length = 70)
     private String contrasena;
 
+    @Column(name = "telefono", nullable = false, length = 70)
     private String telefono;
 
+    @Column(name = "direccion", nullable = false, length = 70)
     private String direccion;
 
+    @Column(name = "rol", nullable = false, length = 20)
     private String rol; // Administrador o Cliente
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Carrito carrito;
+
+
 
     public Usuario(String username, String nombre, String email, String contrasena, String telefono, String direccion, String rol) {
         this.username = username;
@@ -46,73 +64,6 @@ public class Usuario {
         this.direccion = direccion;
         this.rol = rol;
     }
-
-    //getters y setters si no se usa lombok
-    /* 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-    */
 
 }
 

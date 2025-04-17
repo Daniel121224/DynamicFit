@@ -1,4 +1,4 @@
-package com.software.Dynamicfit.model;
+/*package com.software.Dynamicfit.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,3 +25,4 @@ public class CarritoProducto {
 
     private Integer cantidad;
 }
+*/

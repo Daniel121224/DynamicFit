@@ -1,44 +1,58 @@
 package com.software.Dynamicfit.service;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
-import com.software.Dynamicfit.dto.UsuarioDTO;
+//import com.software.Dynamicfit.dto.UsuarioDTO;
 import com.software.Dynamicfit.model.*;
 import com.software.Dynamicfit.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+//import java.util.List;
+//import java.util.Optional;
+//import java.util.stream.Collectors;
 
 @Service
 public class CarritoService {
 
     private final CarritoRepository carritoRepository;
-    private final ProductoRepository productoRepository;
     private final UsuarioRepository usuarioRepository;
-    private final CarritoProductoRepository carritoProductoRepository;
+    //private final ProductoRepository productoRepository;
+    //private final CarritoProductoRepository carritoProductoRepository;
 
     public CarritoService(CarritoRepository carritoRepository,
-                          ProductoRepository productoRepository,
-                          UsuarioRepository usuarioRepository,
-                          CarritoProductoRepository carritoProductoRepository) {
+                          /*ProductoRepository productoRepository,*/
+                          UsuarioRepository usuarioRepository
+                          /*CarritoProductoRepository carritoProductoRepository*/) {
         this.carritoRepository = carritoRepository;
-        this.productoRepository = productoRepository;
+        //this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
-        this.carritoProductoRepository = carritoProductoRepository;
+        //this.carritoProductoRepository = carritoProductoRepository;
     }
 
     public Carrito crearCarrito(CarritoDTO dto) {
+        Usuario usuario = usuarioRepository.findById(dto.getUsuario_id()) // Cambié de id_usuario a usuario_id
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         Carrito carrito = new Carrito();
-        carrito.setId_usuario(dto.getId_usuario());
+        carrito.setUsuario(usuario);
         carrito.setTotal_carrito(0);
+
+        // Establecer la relación bidireccional
+        usuario.setCarrito(carrito);
+
         return carritoRepository.save(carrito);
     }
 
+    /*
+
     // Duda en el metodo findByUsuarioId, no se si es correcto
     public Carrito obtenerCarritoPorUsuario(Long idUsuario) {
-        return carritoRepository.findByUsuarioId(idUsuario)
+        return carritoRepository.findByUsuario_Id_usuario(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+    }
+
+    public void eliminarCarrito(Long idCarrito) {
+        vaciarCarrito(idCarrito);
+        carritoRepository.deleteById(idCarrito);
     }
 
     public Carrito agregarProducto(Long idCarrito, Long idProducto, int cantidad) {
@@ -88,11 +102,6 @@ public class CarritoService {
         carritoRepository.save(carrito);
     }
 
-    public void eliminarCarrito(Long idCarrito) {
-        vaciarCarrito(idCarrito);
-        carritoRepository.deleteById(idCarrito);
-    }
-
     public Carrito actualizarCantidad(Long idCarrito, Long idProducto, int cantidad) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -126,4 +135,6 @@ public class CarritoService {
                 .sum();
         carrito.setTotal_carrito(total);
     }
+
+    */
 }

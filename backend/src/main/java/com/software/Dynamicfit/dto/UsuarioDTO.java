@@ -11,10 +11,11 @@ public class UsuarioDTO {
     private String username;
     private String nombre;
     private String email;
-    private String contrasena;
+    //private String contrasena;
     private String telefono;
     private String direccion;
     private String rol;
+    private CarritoDTO carrito; // Se puede incluir el carrito si es necesario, pero no es obligatorio
 
     //No se incluye contrasena por seguridad
 }

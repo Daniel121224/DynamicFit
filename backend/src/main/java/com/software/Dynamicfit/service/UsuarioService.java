@@ -1,5 +1,6 @@
 package com.software.Dynamicfit.service;
 
+import com.software.Dynamicfit.dto.CarritoDTO;
 import com.software.Dynamicfit.dto.LoginDTO;
 
 //Contiene la lógica del negocio, separada del controlador.
@@ -24,7 +25,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public List<UsuarioDTO> obtenerTodos() {
-        return usuarioRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream().map(this::convertirADTO).collect(Collectors.toList());
+        //return usuarioRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     public UsuarioDTO obtenerPorId(Long id) {
@@ -36,19 +39,47 @@ public class UsuarioService {
         return convertirADTO(guardado);
     }
 
+    public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
+        return usuarioRepository.findById(id).map(usuarioExistente -> {
+            usuarioExistente.setUsername(usuarioDTO.getUsername());
+            usuarioExistente.setNombre(usuarioDTO.getNombre());
+            usuarioExistente.setEmail(usuarioDTO.getEmail());
+            usuarioExistente.setTelefono(usuarioDTO.getTelefono());
+            usuarioExistente.setDireccion(usuarioDTO.getDireccion());
+            usuarioExistente.setRol(usuarioDTO.getRol());
+            /* // Si permites actualizar la contraseña:
+            if (usuarioDTO.getContrasena() != null && !usuarioDTO.getContrasena().isEmpty()) {
+                usuarioExistente.setContrasena(usuarioDTO.getContrasena());
+            } */
+            Usuario actualizado = usuarioRepository.save(usuarioExistente);
+            return convertirADTO(actualizado);
+        }).orElse(null);
+    }
+    
+
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 
     private UsuarioDTO convertirADTO(Usuario usuario) {
         UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(usuario.getId());
+        dto.setId(usuario.getId_usuario());
         dto.setUsername(usuario.getUsername());
         dto.setNombre(usuario.getNombre());
         dto.setEmail(usuario.getEmail());
         dto.setTelefono(usuario.getTelefono());
         dto.setDireccion(usuario.getDireccion());
         dto.setRol(usuario.getRol());
+
+        if (usuario.getCarrito() != null) {
+        CarritoDTO carritoDTO = new CarritoDTO();
+        carritoDTO.setId_carrito(usuario.getCarrito().getId_carrito());
+        carritoDTO.setTotal_carrito(usuario.getCarrito().getTotal_carrito());
+        carritoDTO.setUsuario_id(usuario.getId_usuario()); // Aqui deberia obtener el usuario_id del dto de carrito
+        // puedes incluir más campos si tu carritoDTO los tiene
+        dto.setCarrito(carritoDTO);
+        }
+
         return dto;
     }
 

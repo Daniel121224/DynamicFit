@@ -1,6 +1,7 @@
 package com.software.Dynamicfit.controller;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
+import com.software.Dynamicfit.dto.CarritoProducto;
 import com.software.Dynamicfit.model.Carrito;
 //import com.software.Dynamicfit.model.Producto;
 import com.software.Dynamicfit.service.CarritoService;
@@ -39,13 +40,20 @@ public class CarritoController {
         return ResponseEntity.ok(carritoService.obtenerCarritoPorUsuario(idUsuario));
     }
 
+    */
+
     @PostMapping("/{idCarrito}/agregar")
     public ResponseEntity<Carrito> agregarProductoAlCarrito(
             @PathVariable Long idCarrito,
-            @RequestParam Long idProducto,
-            @RequestParam(defaultValue = "1") int cantidad) {
-        return ResponseEntity.ok(carritoService.agregarProducto(idCarrito, idProducto, cantidad));
+            @RequestBody CarritoProducto request) {
+
+        return ResponseEntity.ok(
+                carritoService.agregarProducto(idCarrito, request.getProducto_id(), request.getCantidad())
+        );
     }
+
+
+    /*
 
     @DeleteMapping("/{idCarrito}/quitar/{idProducto}")
     public ResponseEntity<?> quitarProductoDelCarrito(

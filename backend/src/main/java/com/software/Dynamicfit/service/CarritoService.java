@@ -7,27 +7,29 @@ import com.software.Dynamicfit.repository.*;
 import org.springframework.stereotype.Service;
 
 //import java.util.List;
-//import java.util.Optional;
+import java.util.Optional;
 //import java.util.stream.Collectors;
 
 @Service
 public class CarritoService {
 
+
     private final CarritoRepository carritoRepository;
     private final UsuarioRepository usuarioRepository;
-    //private final ProductoRepository productoRepository;
-    //private final CarritoProductoRepository carritoProductoRepository;
+    private final ProductoRepository productoRepository;
+    private final CarritoProductoRepository carritoProductoRepository;
 
     public CarritoService(CarritoRepository carritoRepository,
-                          /*ProductoRepository productoRepository,*/
-                          UsuarioRepository usuarioRepository
-                          /*CarritoProductoRepository carritoProductoRepository*/) {
+                          ProductoRepository productoRepository,
+                          UsuarioRepository usuarioRepository,
+                          CarritoProductoRepository carritoProductoRepository) {
         this.carritoRepository = carritoRepository;
-        //this.productoRepository = productoRepository;
+        this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
-        //this.carritoProductoRepository = carritoProductoRepository;
+        this.carritoProductoRepository = carritoProductoRepository;
     }
 
+    // Para crear un carrito solo necesita pasarle el id del usuario al que va a pertenecer
     public Carrito crearCarrito(CarritoDTO dto) {
         Usuario usuario = usuarioRepository.findById(dto.getUsuario_id()) // Cambié de id_usuario a usuario_id
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -55,6 +57,8 @@ public class CarritoService {
         carritoRepository.deleteById(idCarrito);
     }
 
+    */
+
     public Carrito agregarProducto(Long idCarrito, Long idProducto, int cantidad) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -76,9 +80,11 @@ public class CarritoService {
             carritoProductoRepository.save(nuevo);
         }
 
-        actualizarTotal(carrito);
+        //actualizarTotal(carrito);
         return carritoRepository.save(carrito);
     }
+
+    /*
 
     public void quitarProducto(Long idCarrito, Long idProducto) {
         Carrito carrito = carritoRepository.findById(idCarrito)

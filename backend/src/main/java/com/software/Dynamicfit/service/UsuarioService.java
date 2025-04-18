@@ -44,7 +44,7 @@ public class UsuarioService {
         // Guardamos el usuario
         Usuario guardado = usuarioRepository.save(usuario);
 
-        // Creamos el carrito automáticamente
+        // Creamos el carrito automáticamente al crearse un usuario
         CarritoDTO carritoDTO = new CarritoDTO();
         carritoDTO.setUsuario_id(guardado.getId_usuario());
         carritoService.crearCarrito(carritoDTO);
@@ -89,6 +89,7 @@ public class UsuarioService {
         carritoDTO.setId_carrito(usuario.getCarrito().getId_carrito());
         carritoDTO.setTotal_carrito(usuario.getCarrito().getTotal_carrito());
         carritoDTO.setUsuario_id(usuario.getId_usuario()); // Aqui deberia obtener el usuario_id del dto de carrito
+        
         // puedes incluir más campos si tu carritoDTO los tiene
         dto.setCarrito(carritoDTO);
         }

@@ -1,4 +1,4 @@
-/*package com.software.Dynamicfit.repository;
+package com.software.Dynamicfit.repository;
 
 import com.software.Dynamicfit.model.Carrito;
 import com.software.Dynamicfit.model.CarritoProducto;
@@ -18,4 +18,3 @@ public interface CarritoProductoRepository extends JpaRepository<CarritoProducto
 
     void deleteByCarritoAndProducto(Carrito carrito, Producto producto);
 }
-*/

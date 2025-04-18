@@ -1,5 +1,7 @@
 package com.software.Dynamicfit.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
@@ -26,6 +28,6 @@ public class Carrito {
     private Usuario usuario;
 
 
-    //@OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<CarritoProducto> productos;
+    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CarritoProducto> productos;
 }

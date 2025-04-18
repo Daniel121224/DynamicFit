@@ -1,4 +1,6 @@
-/*package com.software.Dynamicfit.model;
+package com.software.Dynamicfit.model;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,16 +15,17 @@ public class CarritoProducto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_carrito_producto;
 
     @ManyToOne
-    @JoinColumn(name = "id_carrito")
+    @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
+    @JsonBackReference
     private Carrito carrito;
 
     @ManyToOne
-    @JoinColumn(name = "id_producto")
+    @JoinColumn(name = "producto_id", referencedColumnName = "id_producto")
+    @JsonBackReference
     private Producto producto;
 
     private Integer cantidad;
 }
-*/

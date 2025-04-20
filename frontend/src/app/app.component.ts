@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
-import { LoginComponent } from './auth/login/login.component';
+import { Component } from '@angular/core'; //Decorador para definir un componente
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [LoginComponent], // Importamos LoginComponent directamente
-  template: '<app-login></app-login>', // Mostramos solo el Login
+  imports: [RouterOutlet],
+  template: '<router-outlet></router-outlet>'
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'app';
+  // Aquí puedes agregar cualquier lógica adicional que necesites en tu componente principal
+  // o simplemente dejarlo vacío si solo quieres mostrar el LoginComponent.
+}

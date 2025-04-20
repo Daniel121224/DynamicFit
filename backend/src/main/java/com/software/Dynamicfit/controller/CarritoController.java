@@ -1,10 +1,13 @@
 package com.software.Dynamicfit.controller;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
-import com.software.Dynamicfit.dto.CarritoProducto;
+import com.software.Dynamicfit.dto.CarritoProductoDTO;
 import com.software.Dynamicfit.model.Carrito;
 //import com.software.Dynamicfit.model.Producto;
 import com.software.Dynamicfit.service.CarritoService;
+
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,12 @@ public class CarritoController {
         return ResponseEntity.ok(nuevoCarrito);
     }
 
+    
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<CarritoDTO> obtenerCarritoPorUsuario(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(carritoService.obtenerCarritoDTOporUsuario(idUsuario));
+    }
+
     /*
 
     @DeleteMapping("/{idCarrito}")
@@ -35,25 +44,16 @@ public class CarritoController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{idUsuario}")
-    public ResponseEntity<Carrito> obtenerCarritoPorUsuario(@PathVariable Long idUsuario) {
-        return ResponseEntity.ok(carritoService.obtenerCarritoPorUsuario(idUsuario));
-    }
-
     */
 
     @PostMapping("/{idCarrito}/agregar")
     public ResponseEntity<Carrito> agregarProductoAlCarrito(
             @PathVariable Long idCarrito,
-            @RequestBody CarritoProducto request) {
-
+            @RequestBody CarritoProductoDTO request) {
         return ResponseEntity.ok(
                 carritoService.agregarProducto(idCarrito, request.getProducto_id(), request.getCantidad())
         );
     }
-
-
-    /*
 
     @DeleteMapping("/{idCarrito}/quitar/{idProducto}")
     public ResponseEntity<?> quitarProductoDelCarrito(
@@ -63,19 +63,32 @@ public class CarritoController {
         return ResponseEntity.ok().build();
     }
 
+    // Este método se usa para actualizar la cantidad de un producto en el carrito
+    // Recibe el id del carrito, el id del producto y la nueva cantidad
+    // Se espera que el cuerpo de la solicitud contenga un JSON con la nueva cantidad
+    @PutMapping("/{idCarrito}/actualizar/{idProducto}")
+    public ResponseEntity<Carrito> actualizarCantidadProducto(
+            @PathVariable Long idCarrito,
+            @PathVariable Long idProducto,
+            @RequestBody Map<String, Integer> requestBody) {
+
+        int cantidad = requestBody.get("cantidad");
+        return ResponseEntity.ok(carritoService.actualizarCantidad(idCarrito, idProducto, cantidad));
+    }
+
+    
     @DeleteMapping("/{idCarrito}/vaciar")
     public ResponseEntity<?> vaciarCarrito(@PathVariable Long idCarrito) {
         carritoService.vaciarCarrito(idCarrito);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{idCarrito}/actualizar")
-    public ResponseEntity<Carrito> actualizarCantidadProducto(
-            @PathVariable Long idCarrito,
-            @RequestParam Long idProducto,
-            @RequestParam int cantidad) {
-        return ResponseEntity.ok(carritoService.actualizarCantidad(idCarrito, idProducto, cantidad));
-    }
+
+    /*
+
+    
+
+    
 
     @GetMapping("/{idCarrito}/productos")
     public ResponseEntity<List<Producto>> obtenerProductosDelCarrito(@PathVariable Long idCarrito) {

@@ -13,7 +13,7 @@ public class CarritoDTO {
     private Long id_carrito;
     private Integer total_carrito;
     private Long usuario_id; 
-    private List<Long> productosId;
+    private List<CarritoProductoDTO> productos;
 }
     
     

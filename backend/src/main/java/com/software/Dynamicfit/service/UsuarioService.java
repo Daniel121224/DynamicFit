@@ -1,11 +1,13 @@
 package com.software.Dynamicfit.service;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
+import com.software.Dynamicfit.dto.CarritoProductoDTO;
 import com.software.Dynamicfit.dto.LoginDTO;
 
 //Contiene la lógica del negocio, separada del controlador.
 
 import com.software.Dynamicfit.dto.UsuarioDTO;
+import com.software.Dynamicfit.model.Carrito;
 import com.software.Dynamicfit.model.Usuario;
 import com.software.Dynamicfit.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class UsuarioService {
 
         // Creamos el carrito automáticamente al crearse un usuario
         CarritoDTO carritoDTO = new CarritoDTO();
-        carritoDTO.setUsuario_id(guardado.getId_usuario());
+        carritoDTO.setUsuario_id(guardado.getIdUsuario());
         carritoService.crearCarrito(carritoDTO);
 
         return convertirADTO(guardado);
@@ -75,27 +77,41 @@ public class UsuarioService {
     }
 
     private UsuarioDTO convertirADTO(Usuario usuario) {
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(usuario.getId_usuario());
-        dto.setUsername(usuario.getUsername());
-        dto.setNombre(usuario.getNombre());
-        dto.setEmail(usuario.getEmail());
-        dto.setTelefono(usuario.getTelefono());
-        dto.setDireccion(usuario.getDireccion());
-        dto.setRol(usuario.getRol());
+    UsuarioDTO dto = new UsuarioDTO();
+    dto.setId(usuario.getIdUsuario());
+    dto.setUsername(usuario.getUsername());
+    dto.setNombre(usuario.getNombre());
+    dto.setEmail(usuario.getEmail());
+    dto.setTelefono(usuario.getTelefono());
+    dto.setDireccion(usuario.getDireccion());
+    dto.setRol(usuario.getRol());
 
-        if (usuario.getCarrito() != null) {
-        CarritoDTO carritoDTO = new CarritoDTO();
-        carritoDTO.setId_carrito(usuario.getCarrito().getId_carrito());
-        carritoDTO.setTotal_carrito(usuario.getCarrito().getTotal_carrito());
-        carritoDTO.setUsuario_id(usuario.getId_usuario()); // Aqui deberia obtener el usuario_id del dto de carrito
+    if (usuario.getCarrito() != null) {
+        Carrito carrito = usuario.getCarrito();
         
-        // puedes incluir más campos si tu carritoDTO los tiene
-        dto.setCarrito(carritoDTO);
+        CarritoDTO carritoDTO = new CarritoDTO();
+        carritoDTO.setId_carrito(carrito.getId_carrito());
+        carritoDTO.setTotal_carrito(carrito.getTotal_carrito());
+        carritoDTO.setUsuario_id(usuario.getIdUsuario());
+
+        if (carrito.getProductos() != null) {
+            List<CarritoProductoDTO> productosDTO = carrito.getProductos().stream().map(cp -> {
+                return CarritoProductoDTO.builder()
+                        .id_carrito_producto(cp.getId_carrito_producto())
+                        .cantidad(cp.getCantidad())
+                        .producto_id(cp.getProducto().getId_producto()) // opcional
+                        .build();
+            }).toList();
+
+            carritoDTO.setProductos(productosDTO);
         }
 
-        return dto;
+        dto.setCarrito(carritoDTO);
     }
+
+    return dto;
+    }
+
 
 
 

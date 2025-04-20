@@ -17,15 +17,18 @@ public class CarritoProducto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_carrito_producto;
 
+
     @ManyToOne
     @JoinColumn(name = "carrito_id", referencedColumnName = "id_carrito")
-    @JsonBackReference
+    @JsonBackReference(value = "carrito-productos")
     private Carrito carrito;
 
     @ManyToOne
     @JoinColumn(name = "producto_id", referencedColumnName = "id_producto")
-    @JsonBackReference
+    @JsonBackReference(value = "producto-carritoProducto")
     private Producto producto;
+
+    
 
     private Integer cantidad;
 }

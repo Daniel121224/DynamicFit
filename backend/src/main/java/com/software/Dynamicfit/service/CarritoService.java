@@ -1,12 +1,16 @@
 package com.software.Dynamicfit.service;
 
 import com.software.Dynamicfit.dto.CarritoDTO;
+import com.software.Dynamicfit.dto.CarritoProductoDTO;
 //import com.software.Dynamicfit.dto.UsuarioDTO;
 import com.software.Dynamicfit.model.*;
 import com.software.Dynamicfit.repository.*;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-//import java.util.List;
+import java.util.List;
 import java.util.Optional;
 //import java.util.stream.Collectors;
 
@@ -44,13 +48,43 @@ public class CarritoService {
         return carritoRepository.save(carrito);
     }
 
+    
     /*
-
-    // Duda en el metodo findByUsuarioId, no se si es correcto
     public Carrito obtenerCarritoPorUsuario(Long idUsuario) {
-        return carritoRepository.findByUsuario_Id_usuario(idUsuario)
+        return carritoRepository.findByUsuario_IdUsuario(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
     }
+    */
+
+    //Este metodo se usa para el metodo de obtener un carrito por el id del usuario
+    //y que sea posible observar el id del producto que está en el carrito
+    public CarritoDTO obtenerCarritoDTOporUsuario(Long idUsuario) {
+        Carrito carrito = carritoRepository.findByUsuario_IdUsuario(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+    
+        return convertirADTO(carrito);
+    }
+
+    private CarritoDTO convertirADTO(Carrito carrito) {
+        List<CarritoProductoDTO> productosDTO = carrito.getProductos().stream().map(cp -> {
+                return CarritoProductoDTO.builder()
+                        .id_carrito_producto(cp.getId_carrito_producto())
+                        .cantidad(cp.getCantidad())
+                        .producto_id(cp.getProducto().getId_producto()) // Aquí se incluye el id del producto
+                        .build();
+        }).toList();
+
+        return CarritoDTO.builder()
+                .id_carrito(carrito.getId_carrito())
+                .total_carrito(carrito.getTotal_carrito())
+                .usuario_id(carrito.getUsuario().getIdUsuario())
+                .productos(productosDTO)
+                .build();
+        }
+
+    
+
+    /*
 
     public void eliminarCarrito(Long idCarrito) {
         vaciarCarrito(idCarrito);
@@ -59,6 +93,8 @@ public class CarritoService {
 
     */
 
+    //Método para agregar un producto al carrito
+    //Recibe el id del carrito, el id del producto y la cantidad a agregar
     public Carrito agregarProducto(Long idCarrito, Long idProducto, int cantidad) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -80,12 +116,23 @@ public class CarritoService {
             carritoProductoRepository.save(nuevo);
         }
 
-        //actualizarTotal(carrito);
+        actualizarTotal(carrito);
         return carritoRepository.save(carrito);
     }
 
-    /*
+    //método para actualizar el total del carrito
+    //Recorre todos los productos del carrito y suma el precio por la cantidad
+    private void actualizarTotal(Carrito carrito) {
+        List<CarritoProducto> productos = carritoProductoRepository.findByCarrito(carrito);
+        int total = productos.stream()
+                .mapToInt(cp -> cp.getProducto().getPrecio() * cp.getCantidad())
+                .sum();
+        carrito.setTotal_carrito(total);
+    }
 
+    //Método para quitar un producto del carrito
+    //Recibe el id del carrito y el id del producto a quitar por medio de la URL
+    @Transactional
     public void quitarProducto(Long idCarrito, Long idProducto) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -99,15 +146,8 @@ public class CarritoService {
         carritoRepository.save(carrito);
     }
 
-    public void vaciarCarrito(Long idCarrito) {
-        Carrito carrito = carritoRepository.findById(idCarrito)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-
-        carritoProductoRepository.deleteByCarrito(carrito);
-        carrito.setTotal_carrito(0);
-        carritoRepository.save(carrito);
-    }
-
+    //Método para actualizar la cantidad de un producto en el carrito
+    //Recibe el id del carrito, el id del producto y la nueva cantidad a actualizar
     public Carrito actualizarCantidad(Long idCarrito, Long idProducto, int cantidad) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -125,6 +165,24 @@ public class CarritoService {
         return carritoRepository.save(carrito);
     }
 
+    //Método para vaciar el carrito
+    //Recibe el id del carrito por medio de la URL
+    @Transactional
+    public void vaciarCarrito(Long idCarrito) {
+        Carrito carrito = carritoRepository.findById(idCarrito)
+                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
+        carritoProductoRepository.deleteByCarrito(carrito);
+        carrito.setTotal_carrito(0);
+        carritoRepository.save(carrito);
+    }
+
+    /*
+
+    
+
+    
+
     public List<Producto> obtenerProductos(Long idCarrito) {
         Carrito carrito = carritoRepository.findById(idCarrito)
                 .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
@@ -134,13 +192,7 @@ public class CarritoService {
                 .collect(Collectors.toList());
     }
 
-    private void actualizarTotal(Carrito carrito) {
-        List<CarritoProducto> productos = carritoProductoRepository.findByCarrito(carrito);
-        int total = productos.stream()
-                .mapToInt(cp -> cp.getProducto().getPrecio() * cp.getCantidad())
-                .sum();
-        carrito.setTotal_carrito(total);
-    }
+    
 
     */
 }

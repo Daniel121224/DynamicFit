@@ -3,10 +3,15 @@ package com.software.Dynamicfit.model;
 //import java.util.List;
 
 import jakarta.persistence.Column;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 //import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-//import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -39,10 +44,12 @@ public class Producto {
     @Column(name = "categoria", nullable = false, length = 30)
     private String categoria;
 
-    //@OneToMany(mappedBy = "producto", cascade = jakarta.persistence.CascadeType.ALL)
-    //private List<CarritoProducto> carritoProductos; // Relación con CarritoProducto
+     
+    @OneToMany(mappedBy = "producto", cascade = jakarta.persistence.CascadeType.ALL)
+    @JsonManagedReference(value = "producto-carritoProducto")
+    private List<CarritoProducto> carritoProductos; // Relación con CarritoProducto
 
-
+    
     
     public Producto(String nombre_producto, String descripcion, Integer precio, String categoria) {
         this.nombre_producto = nombre_producto;

@@ -24,9 +24,10 @@ import lombok.Builder;
 @Table(name = "usuarios") //nombre de la tabla en la base de datos.
 public class Usuario {
 
-    @Id //indica que el campo id es la clave primaria.
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //para generar un valor unico como id
-    private Long id_usuario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idUsuario") // Se mantiene la columna en la base de datos
+    private Long idUsuario; // Esto es lo que Spring usa internamente
 
     @Column(name = "username", nullable = false, length = 70)
     private String username;
@@ -50,7 +51,7 @@ public class Usuario {
     private String rol; // Administrador o Cliente
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "usuario-carrito")
     private Carrito carrito;
 
 

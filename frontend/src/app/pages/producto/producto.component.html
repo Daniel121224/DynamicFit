@@ -1,0 +1,12 @@
+<div class="producto-detalle" *ngIf="producto">
+    <img [src]="producto.imagenUrl" alt="{{ producto.nombre_producto }}">
+    <h2>{{ producto.nombre_producto }}</h2>
+    <p><strong>Precio:</strong> ${{ producto.precio | number:'1.0-0' }}</p>
+    <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+  
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" [(ngModel)]="cantidad" min="1" />
+  
+    <button (click)="agregarAlCarrito()">Agregar al carrito</button>
+  </div>
+  

@@ -1,0 +1,22 @@
+<section class="hero-banner">
+    <div class="textos">
+      <p>DO IT NOW • RUN ON AIR</p>
+      <h1>RUNNING SHOES</h1>
+      <button>COMPRAR</button>
+    </div>
+    <img src="assets/shoe-banner.png" alt="Running Shoes" />
+  </section>
+  
+  <section class="recomendados">
+    <h2>ARTÍCULOS RECOMENDADOS</h2>
+    <div class="productos-grid">
+      <div class="producto" *ngFor="let producto of productos">
+        <img [src]="producto.imagenUrl" alt="{{ producto.nombre_producto }}" />
+        <h3>{{ producto.nombre_producto }}</h3>
+        <p class="precio">${{ producto.precio | number:'1.0-0' }}</p>
+        <p>{{ producto.descripcion }}</p>
+        <button (click)="verDetalle(producto.id_producto)">Ver más</button>
+      </div>
+    </div>
+  </section>
+  

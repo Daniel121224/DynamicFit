@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; // 👈 Importar Router
-import { AuthService } from '../../services/auth.service';
-import { LoginRequest } from '../../models/login-request.model';
+import { AuthService } from '../../../services/auth.service';
+import { LoginRequest } from '../../../models/login-request.model';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +43,11 @@ export class LoginComponent {
       next: (response) => {
         if (response.statusCode === 200 && response.usuario) {
           console.log('Login exitoso:', response.usuario);
-          this.router.navigate(['/catalog']); // 👈 Redirigir al catálogo
+          // 👉 Guardar el ID del usuario
+          localStorage.setItem('id_usuario', response.usuario.id.toString());
+          localStorage.setItem('id_carrito', response.usuario.carrito.id_carrito.toString());
+
+          this.router.navigateByUrl('/catalogo'); // 👈 Redirigir al catálogo
         } else {
           this.mensajeError = response.mensaje;
         }

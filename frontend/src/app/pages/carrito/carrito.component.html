@@ -1,0 +1,27 @@
+<h2>Mi Carrito</h2>
+
+<div *ngIf="productosEnCarrito.length > 0; else vacio">
+  <div *ngFor="let producto of productosEnCarrito" class="producto-carrito">
+    <h3>{{ producto.nombre_producto }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <p>Categoría: {{ producto.categoria }}</p>
+    <p>Precio: ${{ producto.precio }}</p>
+
+    <!-- Campo para ajustar cantidad -->
+    <label>
+      Cantidad:
+      <input type="number" [(ngModel)]="producto.cantidad" min="1" />
+    </label>
+    <button (click)="actualizarCantidad(producto)">Actualizar</button>
+
+    <!-- Botón para eliminar -->
+    <button (click)="eliminarProducto(producto)">Eliminar</button>
+
+    <hr />
+  </div>
+  <p><strong>Total:</strong> ${{ carrito.total_carrito }}</p>
+</div>
+
+<ng-template #vacio>
+  <p>No hay productos en tu carrito.</p>
+</ng-template>

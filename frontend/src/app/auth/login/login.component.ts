@@ -54,4 +54,9 @@ export class LoginComponent {
       }
     });
   }
+
+  irARegistro(): void {
+    this.router.navigate(['/register']);
+  }
+  
 }

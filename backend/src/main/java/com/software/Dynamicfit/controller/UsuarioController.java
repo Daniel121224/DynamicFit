@@ -32,7 +32,7 @@ public class UsuarioController {
         return usuarioService.obtenerPorId(id);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public UsuarioDTO crearUsuario(@RequestBody Usuario usuario) {
         return usuarioService.crearUsuario(usuario);
     }

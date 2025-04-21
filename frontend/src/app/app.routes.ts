@@ -4,10 +4,12 @@ import { CatalogoComponent } from './catalogo/catalogo.component';
 import { ProductoComponent } from './producto/producto.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { InformesComponent } from './informes/informes.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'catalog', component: CatalogoComponent },
   { path: 'product/:id', component: ProductoComponent },
   { path: 'cart', component: CarritoComponent },

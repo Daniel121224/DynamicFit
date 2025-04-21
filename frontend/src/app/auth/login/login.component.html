@@ -13,6 +13,12 @@
       </div>
       <div *ngIf="mensajeError" class="error-message">{{ mensajeError }}</div>
       <button type="submit">Entrar</button>
+      
+      <div class="register-link">
+        <p>¿No tienes una cuenta?</p>
+        <button type="button" (click)="irARegistro()">Registrarse</button>
+      </div>
+      
     </form>
   </div>
 </div>

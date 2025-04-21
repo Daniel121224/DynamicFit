@@ -11,7 +11,7 @@
         <label for="password">Contraseña</label>
         <input id="password" type="password" formControlName="password" />
       </div>
-
+      <div *ngIf="mensajeError" class="error-message">{{ mensajeError }}</div>
       <button type="submit">Entrar</button>
     </form>
   </div>

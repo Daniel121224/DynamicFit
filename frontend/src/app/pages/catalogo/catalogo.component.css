@@ -1,20 +1,50 @@
-/* Banner de cabecera */
-.hero-banner {
+  /* Banner de cabecera */
+  .hero-banner {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #00000011;
-    color: rgb(0, 0, 0);
-    padding: 2rem;
+    justify-content: flex-start;
+    padding: 4rem 3rem;
+    height: 300px;
+    color: white;
+    
+    border-radius: 16px;
+    margin: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
-  
+
   .hero-banner .textos {
-    max-width: 50%;
+    max-width: 40%;
   }
-  
-  .hero-banner img {
-    max-height: 250px;
+
+  .hero-banner p {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    color: #e0e0e0;
   }
+
+  .hero-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+  }
+
+  .hero-banner button {
+    padding: 0.7rem 1.5rem;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .hero-banner button:hover {
+    background-color: #e0e0e0;
+  }
+
   
   /* Sección de recomendados */
   .recomendados {

@@ -1,0 +1,87 @@
+h2 {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 2rem;
+    color: #0c1a58;
+  }
+  
+  .producto-carrito {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    background-color: #ffffff;
+  }
+  
+  .imagen-carrito {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .info-carrito {
+    flex: 1;
+  }
+  
+  .info-carrito h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #222;
+  }
+  
+  .info-carrito .descripcion {
+    margin: 0.5rem 0;
+    color: #444;
+  }
+  
+  .info-carrito .categoria,
+  .info-carrito .precio {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  
+  .cantidad-controles {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .cantidad-controles input {
+    width: 60px;
+    padding: 0.3rem;
+    text-align: center;
+  }
+  
+  .cantidad-controles button {
+    background-color: #0c1a58;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cantidad-controles .eliminar {
+    background-color: #e53935;
+  }
+  
+  .cantidad-controles button:hover {
+    opacity: 0.85;
+  }
+  
+  .total {
+    text-align: right;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  

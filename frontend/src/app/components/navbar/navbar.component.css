@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0c1a58;
+
+  background: linear-gradient(to left, hwb(226 4% 57%), #1c5caa);
   color: white;
   padding: 1rem 3rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -12,7 +13,7 @@
 }
 
 .navbar .logo img {
-  height: 100px;
+  height: 80px;
   transition: transform 0.3s ease;
 }
 

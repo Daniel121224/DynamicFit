@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 export class ProductoComponent implements OnInit {
   producto!: Producto;
   cantidad: number = 1;
+  tabSeleccionado: string = 'entrega';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +31,7 @@ export class ProductoComponent implements OnInit {
       next: (data) => {
         this.producto = {
           ...data,
-          imagenUrl: 'assets/shoes-yellow.png' // imagen por defecto
+          imagenUrl: `assets/productos/${data.nombre_producto}.png` // Asignar imagen temporal
         };
       },
       error: (err) => console.error('Error al cargar producto:', err)

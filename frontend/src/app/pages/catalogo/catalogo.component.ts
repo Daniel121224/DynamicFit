@@ -25,7 +25,7 @@ export class CatalogoComponent implements OnInit {
         // Si quieres, asignar imagen temporal a cada producto
         this.productos = data.map(p => ({
           ...p,
-          imagenUrl: 'assets/shoes-yellow.png' // imagen por defecto
+          imagenUrl: `assets/productos/${p.nombre_producto}.png`
         }));
       },
       error: (err) => {

@@ -1,0 +1,89 @@
+/* Banner de cabecera */
+.hero-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #00000011;
+    color: rgb(0, 0, 0);
+    padding: 2rem;
+  }
+  
+  .hero-banner .textos {
+    max-width: 50%;
+  }
+  
+  .hero-banner img {
+    max-height: 250px;
+  }
+  
+  /* Sección de recomendados */
+  .recomendados {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .recomendados h2 {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  /* Grid de productos */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    justify-items: center;
+  }
+  
+  .producto {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* para empujar el botón al fondo */
+  }
+  
+  .producto:hover {
+    transform: translateY(-5px);
+  }
+  
+  
+  .producto img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .producto h3 {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+  
+  .producto .precio {
+    font-weight: bold;
+    color: #0c1a58;
+    margin-bottom: 0.5rem;
+  }
+  
+  .producto button {
+    background-color: #0c1a58;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .producto button:hover {
+    background-color: #3ba8f0;
+  }
+  

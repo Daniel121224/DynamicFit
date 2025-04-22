@@ -1,12 +1,27 @@
 <nav class="navbar">
-    <div class="logo">
-      <img src="assets/logo_dynamicfit.png" alt="Logo" />
-    </div>
-    <ul class="nav-links">
-      <li><a routerLink="/catalogo" routerLinkActive="active">Catálogo</a></li>
-      <li><a routerLink="/carrito" routerLinkActive="active">Mi Carrito</a></li>
-      <li><a routerLink="/informes">Informes</a></li>
-      <li><a (click)="cerrarSesion()">Cerrar sesión</a></li>
-    </ul>
-  </nav>
-  
+  <div class="logo">
+    <img src="assets/logo_dynamicfit_horizontal.png" alt="Logo horizontal" />
+  </div>
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/catalogo" routerLinkActive="active">
+        <i class="fas fa-store"></i> CATÁLOGO
+      </a>
+    </li>
+    <li>
+      <a routerLink="/carrito" routerLinkActive="active">
+        <i class="fas fa-shopping-cart"></i> MI CARRITO
+      </a>
+    </li>
+    <li>
+      <a routerLink="/informes">
+        <i class="fas fa-chart-line"></i> INFORMES
+      </a>
+    </li>
+    <li>
+      <a (click)="cerrarSesion()">
+        <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
+      </a>
+    </li>
+  </ul>
+</nav>

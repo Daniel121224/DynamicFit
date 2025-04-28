@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CarritoDTO } from '../models/carrito.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +27,13 @@ export class CarritoService {
   eliminarProducto(idCarrito: number, idProducto: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${idCarrito}/quitar/${idProducto}`);
   }
-  
+
+  vaciarCarrito(idCarrito: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${idCarrito}/vaciar`);
+  }
+
+  actualizarCarrito(idCarrito: number, productos: { producto_id: number; cantidad: number; }[]): Observable<CarritoDTO> {
+    return this.http.put<CarritoDTO>(`${this.apiUrl}/${idCarrito}/actualizar`, { productos });
+  }
   
 }

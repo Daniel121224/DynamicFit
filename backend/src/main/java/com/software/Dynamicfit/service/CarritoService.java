@@ -82,16 +82,6 @@ public class CarritoService {
                 .build();
         }
 
-    
-
-    /*
-
-    public void eliminarCarrito(Long idCarrito) {
-        vaciarCarrito(idCarrito);
-        carritoRepository.deleteById(idCarrito);
-    }
-
-    */
 
     //Método para agregar un producto al carrito
     //Recibe el id del carrito, el id del producto y la cantidad a agregar

@@ -5,6 +5,8 @@ import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PedidoService } from '../../services/pedido.service'; // Asegúrate de tener este servicio o usar CarritoService si maneja pedidos
+
 
 @Component({
   selector: 'app-carrito',
@@ -12,26 +14,28 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./carrito.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule]
-
 })
 export class CarritoComponent implements OnInit {
   carrito!: CarritoDTO;
   productosEnCarrito: (Producto & { cantidad: number })[] = [];
+  idUsuario!: number;
 
   constructor(
     private carritoService: CarritoService,
-    private productoService: ProductoService
+    private productoService: ProductoService,
+    private pedidoService: PedidoService // Si usas un servicio diferente para manejar pedidos
   ) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && localStorage.getItem('id_usuario')) {
-      const idUsuario = localStorage.getItem('id_usuario');
-      if (!idUsuario) {
+      const idUsuarioString = localStorage.getItem('id_usuario');
+      if (!idUsuarioString) {
         console.error('Usuario no logueado');
         return;
       }
-  
-      this.carritoService.obtenerCarritoPorUsuario(Number(idUsuario)).subscribe({
+      this.idUsuario = Number(idUsuarioString);
+
+      this.carritoService.obtenerCarritoPorUsuario(this.idUsuario).subscribe({
         next: (carrito) => {
           this.carrito = carrito;
           carrito.productos.forEach((item) => {
@@ -48,16 +52,15 @@ export class CarritoComponent implements OnInit {
         }
       });
     } else {
-      console.warn('localStorage no está disponible o no se encontró id_usuario.');
+      console.warn('localStorage no disponible o no hay id_usuario.');
     }
   }
-
 
   actualizarCantidad(producto: Producto & { cantidad: number }) {
     const idCarrito = this.carrito.id_carrito;
     const idProducto = producto.id_producto;
     const nuevaCantidad = producto.cantidad;
-  
+
     this.carritoService.actualizarCantidad(idCarrito, idProducto, nuevaCantidad).subscribe({
       next: (carritoActualizado) => {
         this.carrito = carritoActualizado;
@@ -68,17 +71,15 @@ export class CarritoComponent implements OnInit {
       }
     });
   }
-  
+
   eliminarProducto(producto: Producto & { cantidad: number }) {
     const idCarrito = this.carrito.id_carrito;
     const idProducto = producto.id_producto;
-  
+
     this.carritoService.eliminarProducto(idCarrito, idProducto).subscribe({
       next: () => {
-        // Actualiza la lista en frontend
         this.productosEnCarrito = this.productosEnCarrito.filter(p => p.id_producto !== idProducto);
-        // También puedes actualizar el total consultando el carrito nuevamente
-        this.carritoService.obtenerCarritoPorUsuario(Number(localStorage.getItem('id_usuario'))).subscribe({
+        this.carritoService.obtenerCarritoPorUsuario(this.idUsuario).subscribe({
           next: (nuevoCarrito) => this.carrito = nuevoCarrito
         });
       },
@@ -87,6 +88,28 @@ export class CarritoComponent implements OnInit {
       }
     });
   }
-  
 
+  vaciarCarrito() {
+    this.carritoService.vaciarCarrito(this.carrito.id_carrito).subscribe({
+      next: () => {
+        this.productosEnCarrito = [];
+        this.carrito.total_carrito = 0;
+      },
+      error: (err) => {
+        console.error('Error al vaciar carrito:', err);
+      }
+    });
+  }
+
+  generarPedido() {
+    this.pedidoService.generarPedido(this.idUsuario).subscribe({
+      next: (pedido) => {
+        alert('¡Pedido generado exitosamente!');
+        this.vaciarCarrito(); // Opcional: limpiar carrito después
+      },
+      error: (err) => {
+        console.error('Error al generar pedido:', err);
+      }
+    });
+  }
 }

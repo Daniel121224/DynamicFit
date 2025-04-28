@@ -1,0 +1,121 @@
+.informes-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .filtros {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #eef, #dde);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filtros h3 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .filtros-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+  }
+  
+  .filtro-grupo label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .filtro-grupo input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .botones-filtro {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .botones-filtro button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .botones-filtro button.limpiar {
+    background-color: #f44336;
+  }
+  
+  .botones-filtro button:hover {
+    background-color: #45a049;
+  }
+  
+  .botones-filtro button.limpiar:hover {
+    background-color: #e53935;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  
+  .tabs button.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .tabla table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabla th, .tabla td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .tabla th {
+    background-color: #f2f2f2;
+  }
+  
+  .grafico, .consolidado {
+    text-align: center;
+  }
+  
+  .no-data {
+    text-align: center;
+    margin-top: 20px;
+  }
+  

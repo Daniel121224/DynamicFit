@@ -31,22 +31,25 @@ export class LoginComponent {
   onSubmit(): void {
     this.submitted = true;
     this.mensajeError = null;
-
+  
     if (this.loginForm.invalid) return;
-
+  
     const loginData: LoginRequest = {
       username: this.loginForm.value.username,
       contrasena: this.loginForm.value.password
     };
-
+  
     this.authService.login(loginData).subscribe({
       next: (response) => {
         if (response.statusCode === 200 && response.usuario) {
           console.log('Login exitoso:', response.usuario);
-          // 👉 Guardar el ID del usuario
+          // 👉 Guardar ID del usuario
           localStorage.setItem('id_usuario', response.usuario.id.toString());
+          // 👉 Guardar ID del carrito
           localStorage.setItem('id_carrito', response.usuario.carrito.id_carrito.toString());
-
+          // 👉 Guardar ROL del usuario
+          localStorage.setItem('rol', response.usuario.rol);
+  
           this.router.navigateByUrl('/catalogo'); // 👈 Redirigir al catálogo
         } else {
           this.mensajeError = response.mensaje;
@@ -58,6 +61,7 @@ export class LoginComponent {
       }
     });
   }
+  
 
   irARegistro(): void {
     this.router.navigate(['/register']);

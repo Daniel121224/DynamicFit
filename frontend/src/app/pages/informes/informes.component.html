@@ -1,1 +1,93 @@
-<p>informes works!</p>
+<div class="informes-container">
+  <h1>Informes de Pedidos</h1>
+
+  <div class="filtros">
+    <h3>Filtros</h3>
+    <div class="filtros-horizontal">
+      <div class="filtro-grupo">
+        <label>Precio Mínimo:</label>
+        <input type="number" [(ngModel)]="precioMin">
+      </div>
+      <div class="filtro-grupo">
+        <label>Precio Máximo:</label>
+        <input type="number" [(ngModel)]="precioMax">
+      </div>
+      <div class="filtro-grupo">
+        <label>Fecha Inicio:</label>
+        <input type="date" [(ngModel)]="fechaInicio">
+      </div>
+      <div class="filtro-grupo">
+        <label>Fecha Fin:</label>
+        <input type="date" [(ngModel)]="fechaFin">
+      </div>
+      <div class="botones-filtro">
+        <button (click)="aplicarFiltros()">Aplicar</button>
+        <button class="limpiar" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </div>
+  </div>
+
+  
+    <div class="tabs">
+      <button [class.active]="activeTab === 'tabular'" (click)="cambiarTab('tabular')">Tabular</button>
+      <button [class.active]="activeTab === 'grafico'" (click)="cambiarTab('grafico')">Gráfico</button>
+      <button [class.active]="activeTab === 'consolidado'" (click)="cambiarTab('consolidado')">Consolidado</button>
+    </div>
+  
+    <div *ngIf="pedidosFiltrados.length === 0" class="no-data">
+      <p>No hay pedidos disponibles.</p>
+    </div>
+  
+    <!-- TABULAR -->
+    <div *ngIf="activeTab === 'tabular' && pedidosFiltrados.length > 0" class="tabla">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>ID Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pedido of pedidosFiltrados">
+                <td>{{ pedido.id_pedido }}</td>
+                <td>{{ pedido.total_pedido | currency:'COP' }}</td>
+              
+                <td>
+                  <div *ngIf="rol === 'admin'; else soloLectura">
+                    <input [(ngModel)]="pedido.estadoEditado" style="width: 100px;">
+                    <button (click)="actualizarEstado(pedido)" [disabled]="pedido.estadoEditado === pedido.estado">Guardar</button>
+                  </div>
+                  <ng-template #soloLectura>
+                    {{ pedido.estado }}
+                  </ng-template>
+                </td>
+              
+                <td>{{ pedido.fechaPedido }}</td>
+                <td>{{ pedido.usuario_id }}</td>
+              </tr>
+              
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- GRAFICO (simulado) -->
+    <div *ngIf="activeTab === 'grafico' && pedidosFiltrados.length > 0" class="grafico">
+      <p>Aquí podrías insertar un gráfico de pedidos. (ej: usando Chart.js o ApexCharts)</p>
+      <ul>
+        <li *ngFor="let pedido of pedidosFiltrados">
+          Pedido #{{ pedido.id_pedido }} - Total: {{ pedido.total_pedido | currency:'COP' }}
+        </li>
+      </ul>
+    </div>
+  
+    <!-- CONSOLIDADO -->
+    <div *ngIf="activeTab === 'consolidado' && pedidosFiltrados.length > 0" class="consolidado">
+      <p><strong>Total de pedidos:</strong> {{ pedidosFiltrados.length }}</p>
+      <p><strong>Total Consolidado:</strong> {{ totalConsolidado | currency:'COP' }}</p>
+      <p><strong>Estado más frecuente:</strong> {{ estadoMasFrecuente || 'N/A' }}</p> <!-- 🔥 corregido -->
+    </div>
+  </div>
+  

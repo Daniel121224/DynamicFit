@@ -24,7 +24,7 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Producto> obtenerProducto(@PathVariable Long id) {
+    public Optional<Producto> obtenerProducto(@PathVariable("id") Long id) {
         return productoService.obtenerProductoPorId(id);
     }
 
@@ -34,7 +34,7 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable Long id, @RequestBody Producto productoActualizado) {
+    public Producto actualizarProducto(@PathVariable("id") Long id, @RequestBody Producto productoActualizado) {
         return productoService.obtenerProductoPorId(id).map(producto -> {
             producto.setNombre_producto(productoActualizado.getNombre_producto());
             producto.setDescripcion(productoActualizado.getDescripcion());
@@ -45,7 +45,7 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarProducto(@PathVariable Long id) {
+    public void eliminarProducto(@PathVariable("id") Long id) {
         productoService.eliminarProducto(id);
     }
 }

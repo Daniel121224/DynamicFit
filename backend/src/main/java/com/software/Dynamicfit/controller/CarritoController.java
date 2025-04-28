@@ -32,7 +32,7 @@ public class CarritoController {
 
     
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<CarritoDTO> obtenerCarritoPorUsuario(@PathVariable Long idUsuario) {
+    public ResponseEntity<CarritoDTO> obtenerCarritoPorUsuario(@PathVariable("idUsuario") Long idUsuario) {
         return ResponseEntity.ok(carritoService.obtenerCarritoDTOporUsuario(idUsuario));
     }
 
@@ -48,7 +48,7 @@ public class CarritoController {
 
     @PostMapping("/{idCarrito}/agregar")
     public ResponseEntity<Carrito> agregarProductoAlCarrito(
-            @PathVariable Long idCarrito,
+            @PathVariable("idCarrito") Long idCarrito,
             @RequestBody CarritoProductoDTO request) {
         return ResponseEntity.ok(
                 carritoService.agregarProducto(idCarrito, request.getProducto_id(), request.getCantidad())
@@ -57,8 +57,8 @@ public class CarritoController {
 
     @DeleteMapping("/{idCarrito}/quitar/{idProducto}")
     public ResponseEntity<?> quitarProductoDelCarrito(
-            @PathVariable Long idCarrito,
-            @PathVariable Long idProducto) {
+            @PathVariable("idCarrito") Long idCarrito,
+            @PathVariable("idProducto") Long idProducto) {
         carritoService.quitarProducto(idCarrito, idProducto);
         return ResponseEntity.ok().build();
     }
@@ -68,8 +68,8 @@ public class CarritoController {
     // Se espera que el cuerpo de la solicitud contenga un JSON con la nueva cantidad
     @PutMapping("/{idCarrito}/actualizar/{idProducto}")
     public ResponseEntity<Carrito> actualizarCantidadProducto(
-            @PathVariable Long idCarrito,
-            @PathVariable Long idProducto,
+            @PathVariable("idCarrito") Long idCarrito,
+            @PathVariable("idProducto") Long idProducto,
             @RequestBody Map<String, Integer> requestBody) {
 
         int cantidad = requestBody.get("cantidad");
@@ -78,7 +78,7 @@ public class CarritoController {
 
     
     @DeleteMapping("/{idCarrito}/vaciar")
-    public ResponseEntity<?> vaciarCarrito(@PathVariable Long idCarrito) {
+    public ResponseEntity<?> vaciarCarrito(@PathVariable("idCarrito") Long idCarrito) {
         carritoService.vaciarCarrito(idCarrito);
         return ResponseEntity.ok().build();
     }

@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   background: linear-gradient(to left, hwb(226 4% 57%), #1c5caa);
   color: white;
   padding: 1rem 3rem;

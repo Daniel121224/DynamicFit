@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-informes',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgApexchartsModule],
   templateUrl: './informes.component.html',
-  styleUrls: ['./informes.component.css']  // 🔥 corregido: styleUrls[]
+  styleUrls: ['./informes.component.css']
 })
 export class InformesComponent implements OnInit {
   pedidos: any[] = [];
@@ -25,6 +26,61 @@ export class InformesComponent implements OnInit {
 
   totalConsolidado: number = 0;
   estadoMasFrecuente: string = '';
+  consolidadoPorFecha: { fecha: string, total: number }[] = [];
+  
+  // Configuración de ApexCharts
+  chartOptions: any = {
+    series: [{
+      name: "Ventas",
+      data: []
+    }],
+    chart: {
+      type: 'bar',
+      height: 350,
+      toolbar: {
+        show: true
+      }
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        horizontal: false,
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    xaxis: {
+      categories: [],
+      title: {
+        text: 'Fecha'
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Total de Ventas (COP)'
+      },
+      labels: {
+        formatter: function(val: number) {
+          return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP'
+          }).format(val);
+        }
+      }
+    },
+    colors: ['#4CAF50'],
+    tooltip: {
+      y: {
+        formatter: function(val: number) {
+          return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP'
+          }).format(val);
+        }
+      }
+    }
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -47,14 +103,14 @@ export class InformesComponent implements OnInit {
           this.pedidosFiltrados = this.pedidos;
           this.calcularTotalConsolidado();
           this.calcularEstadoMasFrecuente();
-        }
-        ,
+          this.prepararDatosGrafico(); // Añade esta línea
+        },
         error: (err) => {
           console.error('Error al obtener pedidos:', err);
         }
       });
   }
-
+  
   obtenerPedidosDelUsuario() {
     if (!this.idUsuario) return;
     
@@ -65,8 +121,8 @@ export class InformesComponent implements OnInit {
           this.pedidosFiltrados = this.pedidos;
           this.calcularTotalConsolidado();
           this.calcularEstadoMasFrecuente();
-        }
-        ,
+          this.prepararDatosGrafico(); // Añade esta línea
+        },
         error: (err) => {
           console.error('Error al obtener pedidos del usuario:', err);
         }
@@ -74,10 +130,50 @@ export class InformesComponent implements OnInit {
   }
 
   calcularTotalConsolidado() {
-    if (this.pedidosFiltrados) {
-      this.totalConsolidado = this.pedidosFiltrados.reduce((acc, pedido) => acc + pedido.total_pedido, 0);
-    }
+    const resumen: { [fecha: string]: number } = {};
+
+    this.pedidosFiltrados.forEach(pedido => {
+      const fecha = new Date(pedido.fechaPedido).toISOString().split('T')[0]; // solo la fecha
+      resumen[fecha] = (resumen[fecha] || 0) + pedido.total_pedido;
+    });
+
+    this.consolidadoPorFecha = Object.keys(resumen).map(fecha => ({
+      fecha,
+      total: resumen[fecha]
+    }));
+
+    this.totalConsolidado = this.consolidadoPorFecha.reduce((acc, item) => acc + item.total, 0);
   }
+
+  prepararDatosGrafico() {
+    // Ordena las fechas cronológicamente
+    this.consolidadoPorFecha.sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());
+    
+    const categorias = this.consolidadoPorFecha.map(item => {
+      // Formatea la fecha para mostrarla mejor (ej: "28/04/2025")
+      const date = new Date(item.fecha);
+      return date.toLocaleDateString('es-CO');
+    });
+    
+    const datos = this.consolidadoPorFecha.map(item => item.total);
+  
+    // Crea un nuevo objeto para forzar la actualización del gráfico
+    this.chartOptions = {
+      ...this.chartOptions,
+      series: [{
+        name: "Ventas",
+        data: datos
+      }],
+      xaxis: {
+        ...this.chartOptions.xaxis,
+        categories: categorias
+      }
+    };
+    
+    // Forzar la actualización del gráfico
+    this.chartOptions = {...this.chartOptions};
+  }
+
 
   calcularEstadoMasFrecuente() {
     const contadorEstados: { [key: string]: number } = {};
@@ -106,27 +202,29 @@ export class InformesComponent implements OnInit {
     this.pedidosFiltrados = this.pedidos.filter(pedido => {
       const cumplePrecio = (!this.precioMin || pedido.total_pedido >= this.precioMin) &&
                            (!this.precioMax || pedido.total_pedido <= this.precioMax);
-
+  
       const fechaPedido = new Date(pedido.fechaPedido);
       const cumpleFecha = (!this.fechaInicio || fechaPedido >= new Date(this.fechaInicio)) &&
                           (!this.fechaFin || fechaPedido <= new Date(this.fechaFin));
-
+  
       return cumplePrecio && cumpleFecha;
     });
-
+  
     this.calcularTotalConsolidado();
     this.calcularEstadoMasFrecuente();
+    this.prepararDatosGrafico(); // Añade esta línea
   }
-
+  
   limpiarFiltros() {
     this.precioMin = null;
     this.precioMax = null;
     this.fechaInicio = '';
     this.fechaFin = '';
     this.pedidosFiltrados = [...this.pedidos];
-
+  
     this.calcularTotalConsolidado();
     this.calcularEstadoMasFrecuente();
+    this.prepararDatosGrafico(); // Añade esta línea
   }
 
   actualizarEstado(pedido: any) {

@@ -73,18 +73,45 @@
       </table>
     </div>
   
-    <!-- GRAFICO (simulado) -->
-    <div *ngIf="activeTab === 'grafico' && pedidosFiltrados.length > 0" class="grafico">
-      <p>Aquí podrías insertar un gráfico de pedidos. (ej: usando Chart.js o ApexCharts)</p>
-      <ul>
-        <li *ngFor="let pedido of pedidosFiltrados">
-          Pedido #{{ pedido.id_pedido }} - Total: {{ pedido.total_pedido | currency:'COP' }}
-        </li>
-      </ul>
+    <!-- GRAFICO -->
+    <div *ngIf="activeTab === 'grafico' && pedidosFiltrados.length > 0" class="grafico-container">
+      <div style="width: 100%;">
+        <apx-chart 
+          [series]="chartOptions.series" 
+          [chart]="chartOptions.chart" 
+          [xaxis]="chartOptions.xaxis" 
+          [yaxis]="chartOptions.yaxis"
+          [colors]="chartOptions.colors"
+          [plotOptions]="chartOptions.plotOptions"
+          [dataLabels]="chartOptions.dataLabels"
+          [tooltip]="chartOptions.tooltip">
+        </apx-chart>
+      </div>
     </div>
   
     <!-- CONSOLIDADO -->
     <div *ngIf="activeTab === 'consolidado' && pedidosFiltrados.length > 0" class="consolidado">
+
+      <h3>Consolidado por Fecha</h3>
+      <div class="tabla">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Total del Día</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of consolidadoPorFecha">
+              <td>{{ item.fecha }}</td>
+              <td>{{ item.total | currency:'COP' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
       <p><strong>Total de pedidos:</strong> {{ pedidosFiltrados.length }}</p>
       <p><strong>Total Consolidado:</strong> {{ totalConsolidado | currency:'COP' }}</p>
       <p><strong>Estado más frecuente:</strong> {{ estadoMasFrecuente || 'N/A' }}</p> <!-- 🔥 corregido -->

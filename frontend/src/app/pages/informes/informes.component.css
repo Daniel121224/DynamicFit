@@ -26,11 +26,13 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 20px;
+    width: 100%; /* Asegura que ocupe todo el ancho */
   }
   
   .filtro-grupo {
     display: flex;
     flex-direction: column;
+    flex: 1 1 200px; /* permite que crezcan proporcionalmente */
     min-width: 150px;
   }
   
@@ -50,6 +52,8 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
+    flex: 1 1 200px; /* Igual que los filtros, para que no se quede pequeño */
   }
   
   .botones-filtro button {
@@ -119,3 +123,25 @@
     margin-top: 20px;
   }
   
+  .grafico-container {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .grafico-container > div {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grafico-container > div {
+      overflow-x: auto;
+    }
+    
+    .grafico-container apx-chart {
+      min-width: 600px;
+    }
+  }

@@ -16,6 +16,7 @@ export class InformesComponent implements OnInit {
   pedidosFiltrados: any[] = [];
   rol: string | null = null;
   idUsuario: string | null = null;
+  id_pedido: number = 0;
   activeTab: string = 'tabular';
   private apiUrl = 'http://localhost:9090/api/pedidos';
 
@@ -27,6 +28,9 @@ export class InformesComponent implements OnInit {
   totalConsolidado: number = 0;
   estadoMasFrecuente: string = '';
   consolidadoPorFecha: { fecha: string, total: number }[] = [];
+
+
+  pedidoSeleccionado: any = null;
   
   // Configuración de ApexCharts
   chartOptions: any = {
@@ -249,4 +253,56 @@ export class InformesComponent implements OnInit {
       }
     });
   }
+
+
+  verDetalles(pedido: any) {
+    if (this.pedidoSeleccionado === pedido) {
+      this.pedidoSeleccionado = null;
+      return;
+    }
+  
+    this.pedidoSeleccionado = pedido;
+  
+    // Si ya tiene los detalles cargados, no hace nada
+    if (pedido.detalles) {
+      return;
+    }
+  
+    this.http.get<any>(`${this.apiUrl}/${pedido.id_pedido}`).subscribe({
+      next: (pedidoConProductos) => {
+        const productos = pedidoConProductos.productos;
+  
+        if (!productos || productos.length === 0) {
+          pedido.detalles = [];
+          return;
+        }
+  
+        // Consultar detalles de cada producto
+        const peticiones = productos.map((p: any) => {
+          return this.http.get<any>(`http://localhost:9090/api/productos/${p.producto_id}`).toPromise().then((productoInfo) => {
+            return {
+              id_producto: p.producto_id,
+              nombre_producto: productoInfo.nombre_producto,
+              cantidad: p.cantidad,
+              precio: productoInfo.precio
+            };
+          });
+        });
+  
+        Promise.all(peticiones).then((detallesCompletos) => {
+          pedido.detalles = detallesCompletos;
+        }).catch(err => {
+          console.error('Error obteniendo productos:', err);
+          pedido.detalles = [];
+        });
+      },
+      error: (err) => {
+        console.error('Error cargando pedido:', err);
+        pedido.detalles = [];
+      }
+    });
+  }
+  
+
+
 }

@@ -98,6 +98,13 @@ public class PedidoService {
                 .toList();
     }
 
+    // Listar un pedido por ID
+    public PedidoDTO listarPedidoPorId(Long idPedido) {
+        Pedido pedido = pedidoRepository.findById(idPedido)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+        return convertirADTO(pedido);
+    }
+
     // Convertir pedido a DTO
     private PedidoDTO convertirADTO(Pedido pedido) {
         List<PedidoProductoDTO> productosDTO = pedido.getProductos().stream().map(pp -> {

@@ -40,6 +40,13 @@ public class PedidoController {
         return ResponseEntity.ok(pedidos);
     }
 
+    // Listar un pedido por ID
+    @GetMapping("/{idPedido}")
+    public ResponseEntity<PedidoDTO> listarPedidoPorId(@PathVariable("idPedido") Long idPedido) {
+        PedidoDTO pedido = pedidoService.listarPedidoPorId(idPedido);
+        return ResponseEntity.ok(pedido);
+    }
+
     // Eliminar un pedido por ID
     @DeleteMapping("/{idPedido}")
     public ResponseEntity<String> eliminarPedido(@PathVariable("idPedido") Long idPedido) {

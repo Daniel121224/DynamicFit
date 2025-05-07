@@ -48,6 +48,7 @@
             <th>Estado</th>
             <th>Fecha</th>
             <th>ID Usuario</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -57,7 +58,11 @@
               
                 <td>
                   <div *ngIf="rol === 'admin'; else soloLectura">
-                    <input [(ngModel)]="pedido.estadoEditado" style="width: 100px;">
+                    <select [(ngModel)]="pedido.estadoEditado" style="width: 120px;">
+                      <option value="Solicitado">Solicitado</option>
+                      <option value="Despachado">Despachado</option>
+                      <option value="Cancelado">Cancelado</option>
+                    </select>
                     <button (click)="actualizarEstado(pedido)" [disabled]="pedido.estadoEditado === pedido.estado">Guardar</button>
                   </div>
                   <ng-template #soloLectura>
@@ -67,10 +72,45 @@
               
                 <td>{{ pedido.fechaPedido }}</td>
                 <td>{{ pedido.usuario_id }}</td>
+
+                <td>
+                  <button (click)="verDetalles(pedido)">Ver detalles</button>
+                </td>
+                
               </tr>
               
         </tbody>
       </table>
+
+      <div *ngIf="pedidoSeleccionado">
+        <h4>Detalles del pedido {{ pedidoSeleccionado.id_pedido }}</h4>
+      
+        <table style="margin-top: 10px; width: 100%; border: 1px solid #ccc;">
+          <thead>
+            <tr>
+              <th>ID Producto</th>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalle of pedidoSeleccionado.detalles">
+              <td>{{ detalle.id_producto }}</td>
+              <td>{{ detalle.nombre_producto }}</td>
+              <td>{{ detalle.cantidad }}</td>
+              <td>{{ detalle.precio | currency:'COP' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <div *ngIf="!pedidoSeleccionado.detalles || pedidoSeleccionado.detalles.length === 0">
+          No hay detalles disponibles.
+        </div>
+      </div>
+      
+
+
     </div>
   
     <!-- GRAFICO -->

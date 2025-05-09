@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; // 👈 Importar Router
 import { AuthService } from '../../../services/auth.service';
 import { LoginRequest } from '../../../models/login-request.model';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-login',
@@ -28,29 +30,38 @@ export class LoginComponent {
     });
   }
 
+  mostrarAlertaLogin(): void {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Bienvenido!',
+      text: 'Has iniciado sesión correctamente.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
+
+
+
   onSubmit(): void {
     this.submitted = true;
     this.mensajeError = null;
-  
+
     if (this.loginForm.invalid) return;
-  
+
     const loginData: LoginRequest = {
       username: this.loginForm.value.username,
       contrasena: this.loginForm.value.password
     };
-  
+
     this.authService.login(loginData).subscribe({
       next: (response) => {
         if (response.statusCode === 200 && response.usuario) {
-          console.log('Login exitoso:', response.usuario);
-          // 👉 Guardar ID del usuario
           localStorage.setItem('id_usuario', response.usuario.id.toString());
-          // 👉 Guardar ID del carrito
           localStorage.setItem('id_carrito', response.usuario.carrito.id_carrito.toString());
-          // 👉 Guardar ROL del usuario
           localStorage.setItem('rol', response.usuario.rol);
-  
-          this.router.navigateByUrl('/catalogo'); // 👈 Redirigir al catálogo
+
+          this.mostrarAlertaLogin(); // ✅ Mostrar alerta
+          this.router.navigateByUrl('/catalogo');
         } else {
           this.mensajeError = response.mensaje;
         }
@@ -61,6 +72,7 @@ export class LoginComponent {
       }
     });
   }
+
   
 
   irARegistro(): void {

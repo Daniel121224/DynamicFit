@@ -5,6 +5,8 @@ import { Producto } from '../../models/producto.model';
 import { CarritoService } from '../../services/carrito.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-producto',
@@ -22,7 +24,8 @@ export class ProductoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productoService: ProductoService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    //private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +41,7 @@ export class ProductoComponent implements OnInit {
     });
   }
 
+  /*
   agregarAlCarrito() {
     const idCarrito = Number(localStorage.getItem('id_carrito'));
     this.carritoService.agregarProducto(idCarrito, this.producto.id_producto, this.cantidad)
@@ -46,4 +50,31 @@ export class ProductoComponent implements OnInit {
         error: (err) => alert('Error al agregar al carrito')
       });
   }
+      */
+
+  //Alerta bonita con sweetalert2
+  agregarAlCarrito() {
+    const idCarrito = Number(localStorage.getItem('id_carrito'));
+    this.carritoService.agregarProducto(idCarrito, this.producto.id_producto, this.cantidad)
+      .subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Producto agregado',
+            text: `${this.producto.nombre_producto} fue agregado al carrito.`,
+            timer: 2000,
+            showConfirmButton: false
+          });
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo agregar el producto al carrito.',
+          });
+        }
+      });
+  }
+
+
 }

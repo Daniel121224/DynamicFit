@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Usuario } from '../../../models/usuario.model';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-register',
@@ -33,6 +35,19 @@ export class RegisterComponent {
     });
   }
 
+
+  mostrarAlertaRegistro(): void {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Registro exitoso!',
+      text: 'Tu cuenta ha sido creada correctamente. Inicia sesión para continuar.',
+      timer: 2500,
+      showConfirmButton: false
+    });
+  }
+
+
+
   onSubmit(): void {
     this.submitted = true;
     this.mensajeError = null;
@@ -44,6 +59,7 @@ export class RegisterComponent {
     this.authService.register(nuevoUsuario).subscribe({
       next: (usuarioCreado) => {
         console.log('Registro exitoso:', usuarioCreado);
+        this.mostrarAlertaRegistro(); // ✅ Mostrar alerta
         this.router.navigate(['/login']);
       },
       error: (err) => {
@@ -52,4 +68,5 @@ export class RegisterComponent {
       }
     });
   }
+
 }

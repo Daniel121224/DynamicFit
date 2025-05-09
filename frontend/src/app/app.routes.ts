@@ -6,6 +6,7 @@ import { CarritoComponent } from './pages/carrito/carrito.component';
 import { InformesComponent } from './pages/informes/informes.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AcercaComponent } from './pages/acerca/acerca.component';  
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -19,6 +20,7 @@ export const routes: Routes = [
       { path: 'producto/:id', component: ProductoComponent },
       { path: 'carrito', component: CarritoComponent },
       { path: 'informes', component: InformesComponent },
+      { path: 'acerca', component: AcercaComponent}, // Ruta para la página "Acerca de"
     ]
   }
 ];

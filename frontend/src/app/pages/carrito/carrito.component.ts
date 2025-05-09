@@ -6,6 +6,7 @@ import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PedidoService } from '../../services/pedido.service'; // Asegúrate de tener este servicio o usar CarritoService si maneja pedidos
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -82,18 +83,36 @@ export class CarritoComponent implements OnInit {
         this.carritoService.obtenerCarritoPorUsuario(this.idUsuario).subscribe({
           next: (nuevoCarrito) => this.carrito = nuevoCarrito
         });
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto eliminado',
+          text: 'El producto fue eliminado del carrito.',
+          timer: 2000,
+          showConfirmButton: false
+        });
       },
+
       error: (err) => {
         console.error('Error al eliminar producto:', err);
       }
     });
   }
 
-  vaciarCarrito() {
+  vaciarCarrito(mostrarAlerta: boolean = true) {
     this.carritoService.vaciarCarrito(this.carrito.id_carrito).subscribe({
       next: () => {
         this.productosEnCarrito = [];
         this.carrito.total_carrito = 0;
+
+        if (mostrarAlerta) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Carrito vaciado',
+            text: 'Todos los productos fueron eliminados.',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }
       },
       error: (err) => {
         console.error('Error al vaciar carrito:', err);
@@ -101,12 +120,20 @@ export class CarritoComponent implements OnInit {
     });
   }
 
+
   generarPedido() {
     this.pedidoService.generarPedido(this.idUsuario).subscribe({
       next: (pedido) => {
-        alert('¡Pedido generado exitosamente!');
-        this.vaciarCarrito(); // Opcional: limpiar carrito después
+        Swal.fire({
+          icon: 'success',
+          title: '¡Pedido generado!',
+          text: 'Tu pedido fue realizado exitosamente.',
+          timer: 2500,
+          showConfirmButton: false
+        });
+        this.vaciarCarrito(false); // No mostrar mensaje
       },
+
       error: (err) => {
         console.error('Error al generar pedido:', err);
       }

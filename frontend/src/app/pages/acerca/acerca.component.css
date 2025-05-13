@@ -1,0 +1,103 @@
+.acerca-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background:  #e0f4fa;
+  min-height: 100vh;
+}
+
+.acerca-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  max-width: 1200px;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem;
+  max-width: 200px;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #004b79;
+  margin-bottom: 0.5rem;
+}
+
+.slogan {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  color: #005f79;
+  margin-bottom: 0.5rem;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li::before {
+  content: "✔️ ";
+  color: #43a047;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+
+
+.tecnologias {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.tecnologias img {
+  width: 170px;
+  height: auto;
+  transition: transform 0.2s ease;
+}
+
+.tecnologias img:hover {
+  transform: scale(1.1);
+}
+
+
+.logo-centro {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.github-logo {
+  width: 110px;
+  height: auto;
+  transition: transform 0.2s ease;
+}
+
+.github-logo:hover {
+  transform: scale(1.1);
+}
+

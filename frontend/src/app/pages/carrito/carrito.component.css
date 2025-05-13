@@ -24,7 +24,6 @@ h2 {
   border-radius: 12px;
   background-color: #f9f9f9;
   height: fit-content;
-  text-align: center;
 }
 
 .resumen-carrito h3 {
@@ -76,8 +75,8 @@ h2 {
 }
 
 .imagen-carrito {
-  width: 120px;
-  height: 120px;
+  width: 190px;
+  height: 190px;
   object-fit: contain;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -113,4 +112,17 @@ h2 {
 
 .cantidad-controles .eliminar {
   background-color: #e53935;
+}
+
+
+.boton-agregar {
+  background-color: #0c1a58;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  cursor: pointer;
 }

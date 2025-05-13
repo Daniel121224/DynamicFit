@@ -145,3 +145,91 @@
       min-width: 600px;
     }
   }
+
+  .donut {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+
+  .tabla table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .tabla th, .tabla td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .tabla th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+
+  .tabla tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  .tabla tr:hover {
+    background-color: #f1f7f9;
+  }
+
+  .acciones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+
+  .icon-btn:hover {
+    background-color: #e0e0e0;
+  }
+
+  .view-btn i {
+    color: #007bff;
+  }
+
+  .delete-btn i {
+    color: #dc3545;
+  }
+
+
+  .icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 18px;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+
+  .save-btn i {
+    color: green;
+  }
+
+  .icon-btn:disabled i {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+
+
+
+

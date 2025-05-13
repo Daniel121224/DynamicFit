@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-informes',
@@ -86,6 +87,33 @@ export class InformesComponent implements OnInit {
     }
   };
 
+  pieChartOptions: any = {
+    series: [], // Se llenará dinámicamente
+    chart: {
+      type: 'donut',
+      width: 380
+    },
+    labels: ['Solicitado', 'Despachado', 'Cancelado'],
+    colors: ['#4792ff', '#4CAF50', '#FF5C5C'],
+    dataLabels: {
+      enabled: true,
+      formatter: function (val: number) {
+        return val.toFixed(1) + '%';
+      }
+    },
+    tooltip: {
+      y: {
+        formatter: function(val: number) {
+          return val.toFixed(0) + " pedidos";
+        }
+      }
+    },
+    legend: {
+      position: 'bottom'
+    }
+  };
+
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -108,6 +136,8 @@ export class InformesComponent implements OnInit {
           this.calcularTotalConsolidado();
           this.calcularEstadoMasFrecuente();
           this.prepararDatosGrafico(); // Añade esta línea
+          this.actualizarPieChart(); // Añade esta línea
+
         },
         error: (err) => {
           console.error('Error al obtener pedidos:', err);
@@ -126,6 +156,8 @@ export class InformesComponent implements OnInit {
           this.calcularTotalConsolidado();
           this.calcularEstadoMasFrecuente();
           this.prepararDatosGrafico(); // Añade esta línea
+          this.actualizarPieChart(); // Añade esta línea
+
         },
         error: (err) => {
           console.error('Error al obtener pedidos del usuario:', err);
@@ -178,6 +210,27 @@ export class InformesComponent implements OnInit {
     this.chartOptions = {...this.chartOptions};
   }
 
+  actualizarPieChart() {
+    const estadoCount = {
+      Solicitado: 0,
+      Despachado: 0,
+      Cancelado: 0
+    };
+
+    this.pedidosFiltrados.forEach(pedido => {
+      if (estadoCount[pedido.estado as keyof typeof estadoCount] !== undefined) {
+        estadoCount[pedido.estado as keyof typeof estadoCount]++;
+      }
+    });
+
+    this.pieChartOptions.series = [
+      estadoCount.Solicitado,
+      estadoCount.Despachado,
+      estadoCount.Cancelado
+    ];
+  }
+
+
 
   calcularEstadoMasFrecuente() {
     const contadorEstados: { [key: string]: number } = {};
@@ -217,6 +270,8 @@ export class InformesComponent implements OnInit {
     this.calcularTotalConsolidado();
     this.calcularEstadoMasFrecuente();
     this.prepararDatosGrafico(); // Añade esta línea
+    this.actualizarPieChart(); // Añade esta línea
+
   }
   
   limpiarFiltros() {
@@ -245,7 +300,13 @@ export class InformesComponent implements OnInit {
         console.log('Estado actualizado exitosamente:', data);
         pedido.estado = nuevoEstado; // Actualizar en pantalla
         delete pedido.estadoEditado; // Limpiar el campo de edición
-        alert('Estado actualizado correctamente.');
+        Swal.fire({
+          icon: 'success',
+          title: 'Actualizado',
+          text: 'El estado del pedido fue actualizado exitosamente.',
+          timer: 2000,
+          showConfirmButton: false
+        });
       },
       error: (err) => {
         console.error('Error al actualizar estado:', err);
@@ -303,6 +364,51 @@ export class InformesComponent implements OnInit {
     });
   }
   
+
+  eliminarPedido(pedido: any) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'Este pedido se eliminará permanentemente.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.http.delete(`${this.apiUrl}/${pedido.id_pedido}`).subscribe({
+        next: () => {
+          this.pedidos = this.pedidos.filter(p => p.id_pedido !== pedido.id_pedido);
+          this.pedidosFiltrados = this.pedidos;
+          this.calcularTotalConsolidado();
+          this.calcularEstadoMasFrecuente();
+          this.prepararDatosGrafico();
+          this.actualizarPieChart();
+
+          setTimeout(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Pedido eliminado',
+              text: 'El pedido ha sido eliminado exitosamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          }, 0);
+        },
+        error: (err) => {
+          console.error('Error al eliminar pedido:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo eliminar el pedido.',
+          });
+        }
+      });
+    }
+  });
+}
+
 
 
 }

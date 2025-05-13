@@ -6,6 +6,7 @@ import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PedidoService } from '../../services/pedido.service'; // Asegúrate de tener este servicio o usar CarritoService si maneja pedidos
+import { RouterModule } from '@angular/router'; // Asegúrate de importar RouterModule si usas rutas
 import Swal from 'sweetalert2';
 
 
@@ -14,7 +15,7 @@ import Swal from 'sweetalert2';
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule] // Asegúrate de importar RouterModule si usas rutas
 })
 export class CarritoComponent implements OnInit {
   carrito!: CarritoDTO;

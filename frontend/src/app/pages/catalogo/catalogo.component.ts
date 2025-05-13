@@ -14,6 +14,15 @@ import { CommonModule } from '@angular/common';
 export class CatalogoComponent implements OnInit {
   productos: Producto[] = [];
 
+  banners: string[] = [
+    'assets/banner-zapatos.png',
+    'assets/banner-zapatos2.jpeg',
+    'assets/banner-zapatos3.jpg'
+  ];
+
+  slideActual: number = 0;
+  intervalo!: any;
+
   constructor(
     private router: Router,
     private productoService: ProductoService
@@ -22,7 +31,6 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.productoService.obtenerProductos().subscribe({
       next: (data) => {
-        // Si quieres, asignar imagen temporal a cada producto
         this.productos = data.map(p => ({
           ...p,
           imagenUrl: `assets/productos/${p.nombre_producto}.png`
@@ -32,9 +40,30 @@ export class CatalogoComponent implements OnInit {
         console.error('Error al obtener productos:', err);
       }
     });
+
+    this.iniciarCarrusel();
+  }
+
+  iniciarCarrusel() {
+    this.intervalo = setInterval(() => {
+      this.siguiente();
+    }, 5000);
+  }
+
+  detenerCarrusel() {
+    clearInterval(this.intervalo);
+  }
+
+  siguiente() {
+    this.slideActual = (this.slideActual + 1) % this.banners.length;
+  }
+
+  anterior() {
+    this.slideActual = (this.slideActual - 1 + this.banners.length) % this.banners.length;
   }
 
   verDetalle(id: number) {
     this.router.navigate(['/producto', id]);
   }
 }
+

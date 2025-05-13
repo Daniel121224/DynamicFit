@@ -51,7 +51,7 @@ public class PedidoController {
     @DeleteMapping("/{idPedido}")
     public ResponseEntity<String> eliminarPedido(@PathVariable("idPedido") Long idPedido) {
         pedidoService.eliminarPedido(idPedido);
-        return ResponseEntity.ok("Pedido eliminado correctamente");
+         return ResponseEntity.noContent().build();
     }
 
     // Actualizar el estado de un pedido por ID

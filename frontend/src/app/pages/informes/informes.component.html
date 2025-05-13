@@ -27,17 +27,18 @@
     </div>
   </div>
 
-  
-    <div class="tabs">
-      <button [class.active]="activeTab === 'tabular'" (click)="cambiarTab('tabular')">Tabular</button>
-      <button [class.active]="activeTab === 'grafico'" (click)="cambiarTab('grafico')">Gráfico</button>
-      <button [class.active]="activeTab === 'consolidado'" (click)="cambiarTab('consolidado')">Consolidado</button>
-    </div>
+  <hr>
+  <div class="tabs">
+    <button [class.active]="activeTab === 'tabular'" (click)="cambiarTab('tabular')">Tabular</button>
+    <button [class.active]="activeTab === 'grafico'" (click)="cambiarTab('grafico')">Gráfico</button>
+    <button [class.active]="activeTab === 'consolidado'" (click)="cambiarTab('consolidado')">Consolidado</button>
+  </div>
   
     <div *ngIf="pedidosFiltrados.length === 0" class="no-data">
       <p>No hay pedidos disponibles.</p>
     </div>
   
+    <br>
     <!-- TABULAR -->
     <div *ngIf="activeTab === 'tabular' && pedidosFiltrados.length > 0" class="tabla">
       <table>
@@ -63,7 +64,14 @@
                       <option value="Despachado">Despachado</option>
                       <option value="Cancelado">Cancelado</option>
                     </select>
-                    <button (click)="actualizarEstado(pedido)" [disabled]="pedido.estadoEditado === pedido.estado">Guardar</button>
+                    <button 
+                      (click)="actualizarEstado(pedido)" 
+                      [disabled]="pedido.estadoEditado === pedido.estado" 
+                      class="icon-btn save-btn"
+                      title="Guardar cambios">
+                      <i class="fa-solid fa-floppy-disk"></i>
+                    </button>
+
                   </div>
                   <ng-template #soloLectura>
                     {{ pedido.estado }}
@@ -73,9 +81,16 @@
                 <td>{{ pedido.fechaPedido }}</td>
                 <td>{{ pedido.usuario_id }}</td>
 
-                <td>
-                  <button (click)="verDetalles(pedido)">Ver detalles</button>
+                <td class="acciones">
+                  <button (click)="verDetalles(pedido)" class="icon-btn view-btn" title="Ver detalles">
+                    <i class="fa fa-search"></i>
+                  </button>
+                  <button type="button" (click)="eliminarPedido(pedido)" class="icon-btn delete-btn" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                  </button>
                 </td>
+
+                  
                 
               </tr>
               
@@ -83,6 +98,8 @@
       </table>
 
       <div *ngIf="pedidoSeleccionado">
+        <br>
+        <br>
         <h4>Detalles del pedido {{ pedidoSeleccionado.id_pedido }}</h4>
       
         <table style="margin-top: 10px; width: 100%; border: 1px solid #ccc;">
@@ -114,8 +131,10 @@
     </div>
   
     <!-- GRAFICO -->
-    <div *ngIf="activeTab === 'grafico' && pedidosFiltrados.length > 0" class="grafico-container">
-      <div style="width: 100%;">
+    <div *ngIf="activeTab === 'grafico' && pedidosFiltrados.length > 0" class="grafico-container" style="display: flex; gap: 20px;">
+      <!-- Gráfico de barras -->
+      <div style="flex: 1;">
+        <h3>Total por dia</h3>
         <apx-chart 
           [series]="chartOptions.series" 
           [chart]="chartOptions.chart" 
@@ -127,7 +146,24 @@
           [tooltip]="chartOptions.tooltip">
         </apx-chart>
       </div>
+
+      <!-- Gráfico de torta -->
+      <div style="flex: 1;">
+        <h3>Distribución de Estados</h3>
+        <div class = "donut">
+            <apx-chart 
+              [series]="pieChartOptions.series"
+              [chart]="pieChartOptions.chart"
+              [labels]="pieChartOptions.labels"
+              [colors]="pieChartOptions.colors"
+              [dataLabels]="pieChartOptions.dataLabels"
+              [legend]="pieChartOptions.legend"
+              [tooltip]="pieChartOptions.tooltip">
+            </apx-chart>
+          </div>
+      </div>
     </div>
+
   
     <!-- CONSOLIDADO -->
     <div *ngIf="activeTab === 'consolidado' && pedidosFiltrados.length > 0" class="consolidado">
@@ -151,7 +187,7 @@
       </div>
 
 
-
+      <br>
       <p><strong>Total de pedidos:</strong> {{ pedidosFiltrados.length }}</p>
       <p><strong>Total Consolidado:</strong> {{ totalConsolidado | currency:'COP' }}</p>
       <p><strong>Estado más frecuente:</strong> {{ estadoMasFrecuente || 'N/A' }}</p> <!-- 🔥 corregido -->

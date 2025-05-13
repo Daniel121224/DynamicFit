@@ -1,5 +1,6 @@
 <h2>Mi Carrito</h2>
 
+<hr>
 <div class="carrito-contenedor">
   
   <!-- Columna izquierda - Productos -->
@@ -29,7 +30,12 @@
     </div>
 
     <ng-template #vacio>
-      <p>No hay productos en tu carrito.</p>
+      <div class="carrito-vacio">
+        <p>Tu carrito está vacío. Agrega productos para verlos aquí.</p>
+        <a routerLink="/catalogo" routerLinkActive="active">
+          <button class="boton-agregar">Agregar Productos</button>
+        </a>
+      </div>
     </ng-template>
   </div>
 

@@ -13,4 +13,8 @@ export class PedidoService {
   generarPedido(idUsuario: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/crear/${idUsuario}`, {});
   }
+
+  eliminarPedido(idPedido: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${idPedido}`);
+  }
 }

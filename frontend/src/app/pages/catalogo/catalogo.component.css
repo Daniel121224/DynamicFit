@@ -1,36 +1,42 @@
   /* Banner de cabecera */
-  .hero-banner {
+
+
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  .carousel {
+    display: flex;
+    transition: transform 1s ease-in-out;
+    height: 100%;
+  }
+
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 4rem 3rem;
-    height: 300px;
     color: white;
-    
-    border-radius: 16px;
-    margin: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
 
-  .hero-banner .textos {
+  .carousel-slide .textos {
     max-width: 40%;
+    margin-left: 70px;
   }
 
-  .hero-banner p {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    color: #e0e0e0;
-  }
-
-  .hero-banner h1 {
+  .carousel-slide h1 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
     font-weight: bold;
   }
 
-  .hero-banner button {
+  .carousel-slide button {
     padding: 0.7rem 1.5rem;
     background-color: #ffffff;
     color: #000000;
@@ -41,9 +47,34 @@
     transition: background-color 0.3s ease;
   }
 
-  .hero-banner button:hover {
+  .carousel-slide button:hover {
     background-color: #e0e0e0;
   }
+
+  .flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    font-size: 4rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    color: white;           /* Solo el icono blanco */
+    background: none;       /* Sin fondo */
+    padding: 0;             /* Sin espacio extra */
+    border-radius: 0;       /* Sin forma circular */
+  }
+
+
+  .flecha.izquierda {
+    left: 1rem;
+  }
+
+  .flecha.derecha {
+    right: 1rem;
+  }
+
 
   
   /* Sección de recomendados */

@@ -1,21 +1,31 @@
-<section
-  class="hero-banner"
-  [ngStyle]="{
-    'background-image':
-      'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(assets/banner-zapatos.png)',
-    'background-size': 'cover',
-    'background-position': 'center'
-  }"
->
-  <div class="textos">
-    <p>DO IT NOW • RUN ON AIR</p>
-    <h1>Zapatillas Running Pro</h1>
-    <button (click)="verDetalle(7)">COMPRAR</button>
-  </div>
-</section>
+
+  <section class="carousel-container">
+    <div class="carousel" [style.transform]="'translateX(-' + slideActual * 100 + '%)'">
+      <div
+        class="carousel-slide"
+        *ngFor="let banner of banners"
+        [ngStyle]="{
+          'background-image': 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(' + banner + ')',
+          'background-size': 'cover',
+          'background-position': 'center'
+        }"
+      >
+        <div class="textos">
+          <p>DO IT NOW • RUN ON AIR</p>
+          <h1>Zapatillas Running Pro</h1>
+          <button (click)="verDetalle(7)">COMPRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="flecha izquierda" (click)="anterior()">‹</button>
+    <button class="flecha derecha" (click)="siguiente()">›</button>
+  </section>
+
   
   <section class="recomendados">
     <h2>ARTÍCULOS RECOMENDADOS</h2>
+    <hr>
     <div class="productos-grid">
       <div class="producto" *ngFor="let producto of productos">
         <img [src]="producto.imagenUrl" alt="{{ producto.nombre_producto }}" />
